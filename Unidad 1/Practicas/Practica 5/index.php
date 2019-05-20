@@ -1,14 +1,31 @@
 <?php
-    /*
-    El index muestra la salida de las vistas al ususario, tambien a traves de
-    el enviaremos las distintas acciones que el usuario envíe al controlador
-    */
 
-    //require_once establece el código del archivo a utilizar
+require_once "models/enlaces.php";
+require_once "models/crud.php";
+require_once "controllers/controller.php";
 
-    require_once "Controllers/controller.php";
-    require_once "Models/model.php";
+$mvc = new MvcController();
 
-    $mvc = new MvcController();
-    $mvc->plantilla();
+session_start();
+
+if (isset($_SESSION['registrar'])) {
+    // code...
+    if ($_SESSION["registrar"]) {
+        // code...
+        $_SESSION["registrar"] = false;
+        unset($_SESSION["registrar"]);
+        $mvc -> pagina1();
+    }
+
+} else {
+    if (isset($_SESSION["validar"])) {
+        // code...
+        if($_SESSION["validar"]){
+            $mvc -> pagina2();
+        }
+    } else {
+        $mvc -> pagina();
+    }
+}
+
 ?>
