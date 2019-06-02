@@ -9,7 +9,8 @@ class Paginas{
 			$enlaces == "habitaciones" || $enlaces == "agregar_habitacion" || $enlaces == "editar_habitacion" ||
 			$enlaces == "borrar_habitacion" || $enlaces == "clientes" || $enlaces == "agregar_cliente" || $enlaces == "editar_cliente" ||
 			$enlaces == "borrar_cliente" || $enlaces == "reservaciones" || $enlaces == "agregar_reservacion" ||
-			$enlaces == "editar_reservacion" || $enlaces == "borrar_reservacion" || $enlaces == "habitaciones2" || $enlaces == "ganancia"){
+			$enlaces == "editar_reservacion" || $enlaces == "borrar_reservacion" || $enlaces == "habitaciones2" || $enlaces == "ganancia" ||
+      $enlaces == "alumnos" || $enlaces == "agregar_alumno"){
 
 			$module =  "views/modules/".$enlaces.".php";
 		

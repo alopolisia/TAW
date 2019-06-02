@@ -2,7 +2,7 @@
 	<div id="single-wrapper">
 		<form method="post" action="#" class="frm-single">
 			<div class="inside">
-				<div class="title"><strong>Yu</strong>Business</div>
+				<div class="title"><strong>Yu</strong>School Assistent</div>
 				<!-- /.title -->
 				<div class="frm-title">Login</div>
 				<!-- /.frm-title -->
@@ -16,7 +16,7 @@
 
 				<!-- /.row -->
 				<a href="index.php?action=registrar" class="a-link"><i class="fa fa-key"></i>No tienes una cuenta? Registrar.</a>
-				<div class="frm-footer">YuBusiness © 2019.</div>
+				<div class="frm-footer">YuSchoolAssistent © 2019.</div>
 				<!-- /.footer -->
 			</div>
 			<!-- .inside -->

@@ -66,7 +66,7 @@ class MvcController{
 
 		if(isset($_POST["usuarioIngreso"])){
 
-			$sql = "SELECT usuario, password, tipo FROM usuarios WHERE usuario =:usuario";
+			$sql = "SELECT usuario, password FROM usuarios WHERE usuario =:usuario";
 			$execute = [':usuario' => $_POST["usuarioIngreso"]];
 
 			$respuesta = Datos::selectUno($sql, $execute);
@@ -76,10 +76,10 @@ class MvcController{
 				session_start();
 
 				$_SESSION["validar"] = true;
-				$_SESSION["tipo"] = $respuesta["tipo"];
+				$_SESSION["tipo"] = 1;
 
 				if ($_SESSION["tipo"] == 1) {
-					header("location:index.php?action=habitaciones");
+					header("location:index.php?action=alumnos");
 				} else {
 					header("location:index.php?action=reservaciones");
 				}
