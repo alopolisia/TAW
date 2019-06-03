@@ -14,13 +14,13 @@ if(!$_SESSION["validar"]){
 		<div class="row small-spacing">
 			<div class="col-xs-12">
 				<div class="box-content card white">
-					<h4 class="box-title">Nuevo Alumno</h4>
+					<h4 class="box-title">Nuevo Profesor</h4>
 					<!-- /.box-title -->
 					<div class="card-content">
 						<form method="post" enctype='multipart/form-data'>
 							<div class="form-group">
-								<label for="exampleInputPassword1">Matrícula</label>
-								<input type="text" class="form-control" id="exampleInputPassword1" placeholder="Matrícula" name="matricula" required>
+								<label for="exampleInputPassword1">Id</label>
+								<input type="text" class="form-control" id="exampleInputPassword1" placeholder="Id" name="id" required>
 							</div>
               
               <div class="form-group">
@@ -68,6 +68,6 @@ if(!$_SESSION["validar"]){
 <?php
 
 	$vista = new MvcController();
-	$vista -> agregarAlumnoController();
+	$vista -> agregarProfesorController();
 
 ?>

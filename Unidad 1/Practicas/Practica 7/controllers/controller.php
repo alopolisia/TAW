@@ -632,6 +632,672 @@ class MvcController{
 
 	}
 
+	#VISTA DE ALUMNOS
+	#------------------------------------
+
+	public function vistaAlumnosController(){
+
+		$sql = "SELECT * FROM alumnos";
+
+		$respuesta = Datos::selectAll($sql);
+
+		#El constructor foreach proporciona un modo sencillo de iterar sobre arrays. foreach funciona sólo sobre arrays y objetos, y emitirá un error al intentar usarlo con una variable de un tipo diferente de datos o una variable no inicializada.
+
+		foreach($respuesta as $row => $alumno){
+		echo'<tr>
+				<td>'.$alumno["matricula"].'</td>
+				<td>'.$alumno["nombre"].'</td>
+				<td>'.$alumno["fecha_naci"].'</td>
+				<td>'.$alumno["correo"].'</td>
+				<td>'.$alumno["telefono"].'</td>
+				<td>'.'<img src="upload/'.$alumno["imagen"].'" width="100" height="100">'.'</td>
+				<td><a href="index.php?action=editar_alumno&matricula='.$alumno["matricula"].'"><button>Editar</button></a></td>
+				<td><a onclick="return confirmation()" href="index.php?action=borrar_alumno&matricula='.$alumno["matricula"].'"><button>Borrar</button></a></td>
+			</tr>';
+
+		}
+
+	}
+
+	#AGREGAR UN NUEVO ALUMNO
+	#------------------------------------
+	public function agregarAlumnoController(){
+
+		if(isset($_POST["agregar"])){
+			$name = $_FILES['file']['name'];
+	        $target_dir = "upload/";
+	        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+	        // Select file type
+	        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+	        // Valid file extensions
+	        $extensions_arr = array("jpg","jpeg","png","gif");
+
+	        // Check extension
+	        if( in_array($imageFileType,$extensions_arr) ){
+	            
+	            // Convert to base64 
+	            $image_base64 = base64_encode(file_get_contents($_FILES['file']['tmp_name']) );
+	            $image = 'data:image/'.$imageFileType.';base64,'.$image_base64;
+	            
+	            // Upload file
+	            move_uploaded_file($_FILES['file']['tmp_name'],'upload/'.$name);
+
+	        }
+
+
+	        //SQL para el insert
+			$sql = "INSERT INTO alumnos (matricula, nombre, fecha_naci, correo, telefono, imagen) VALUES (:matricula,:nombre,:fecha_naci, :correo, :telefono, :imagen)";
+
+			$execute = [':matricula' => $_POST["matricula"], ':nombre' => $_POST["nombre"], ':fecha_naci' => $_POST["fecha_naci"], ':correo' => $_POST["correo"], ':telefono' => $_POST["telefono"], ':imagen' => $name];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			//Aqui habia un if pero lo quite :v
+			header("location:index.php?action=alumnos");
+	    }	
+
+	}
+
+	#EDITAR ALUMNO
+	#------------------------------------
+
+	public function editarAlumnoController(){
+
+		$sql = "SELECT * FROM alumnos WHERE matricula = :matricula";
+		$execute = [':matricula' => $_GET["matricula"]];
+
+		$respuesta = Datos::selectUno($sql, $execute);
+
+		return $respuesta;
+
+	}
+
+	#ACTUALIZAR ALUMNO
+	#------------------------------------
+	public function actualizarAlumnoController(){
+
+		if(isset($_POST["actualizar"])){
+
+			$name = $_FILES['file']['name'];
+	        $target_dir = "upload/";
+	        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+	        // Select file type
+	        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+	        // Valid file extensions
+	        $extensions_arr = array("jpg","jpeg","png","gif");
+
+	        // Check extension
+	        if( in_array($imageFileType,$extensions_arr) ){
+	            
+	            // Convert to base64 
+	            $image_base64 = base64_encode(file_get_contents($_FILES['file']['tmp_name']) );
+	            $image = 'data:image/'.$imageFileType.';base64,'.$image_base64;
+	            
+	            // Upload file
+	            move_uploaded_file($_FILES['file']['tmp_name'],'upload/'.$name);
+
+	        }
+
+	        //SQL para el insert
+			$sql = "UPDATE alumnos SET nombre = :nombre, fecha_naci = :fecha_naci, correo = :correo, telefono = :telefono, imagen = :imagen WHERE matricula = :matricula";
+
+			$execute = [':nombre' => $_POST["nombre"], ':fecha_naci' => $_POST["fecha_naci"], ':correo' => $_POST["correo"], ':telefono' => $_POST["telefono"], ':imagen' => $name, ':matricula' => $matricula];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			if($respuesta == "success"){
+
+				header("location:index.php?action=alumnos");
+
+			}
+
+			else{
+
+				echo "error";
+
+			}
+
+		}
+	
+	}
+
+	#BORRAR ALUMNO
+	#------------------------------------
+	public function borrarAlumnoController(){
+		if(isset($_GET["matricula"])){
+
+			$sql = "DELETE FROM alumnos WHERE matricula = :matricula";
+			$execute = [':matricula' => $_GET["matricula"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			if($respuesta == "success"){
+				header("location:index.php?action=alumnos");
+			}
+		}
+	}
+
+	#VISTA DE PROFESORES
+	#------------------------------------
+
+	public function vistaProfesoresController(){
+
+		$sql = "SELECT * FROM profesores";
+
+		$respuesta = Datos::selectAll($sql);
+
+		#El constructor foreach proporciona un modo sencillo de iterar sobre arrays. foreach funciona sólo sobre arrays y objetos, y emitirá un error al intentar usarlo con una variable de un tipo diferente de datos o una variable no inicializada.
+
+		foreach($respuesta as $row => $profesor){
+		echo'<tr>
+				<td>'.$profesor["id"].'</td>
+				<td>'.$profesor["nombre"].'</td>
+				<td>'.$profesor["fecha_naci"].'</td>
+				<td>'.$profesor["correo"].'</td>
+				<td>'.$profesor["telefono"].'</td>
+				<td>'.'<img src="upload/'.$profesor["imagen"].'" width="100" height="100">'.'</td>
+				<td><a href="index.php?action=editar_profesor&id='.$profesor["id"].'"><button>Editar</button></a></td>
+				<td><a onclick="return confirmation()" href="index.php?action=borrar_profesor&id='.$profesor["id"].'"><button>Borrar</button></a></td>
+			</tr>';
+
+		}
+
+	}
+
+	#AGREGAR UN NUEVO ALUMNO
+	#------------------------------------
+	public function agregarProfesorController(){
+
+		if(isset($_POST["agregar"])){
+			$name = $_FILES['file']['name'];
+	        $target_dir = "upload/";
+	        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+	        // Select file type
+	        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+	        // Valid file extensions
+	        $extensions_arr = array("jpg","jpeg","png","gif");
+
+	        // Check extension
+	        if( in_array($imageFileType,$extensions_arr) ){
+	            
+	            // Convert to base64 
+	            $image_base64 = base64_encode(file_get_contents($_FILES['file']['tmp_name']) );
+	            $image = 'data:image/'.$imageFileType.';base64,'.$image_base64;
+	            
+	            // Upload file
+	            move_uploaded_file($_FILES['file']['tmp_name'],'upload/'.$name);
+
+	        }
+
+
+	        //SQL para el insert
+			$sql = "INSERT INTO profesores (id, nombre, fecha_naci, correo, telefono, imagen) VALUES (:id,:nombre,:fecha_naci, :correo, :telefono, :imagen)";
+
+			$execute = [':id' => $_POST["id"], ':nombre' => $_POST["nombre"], ':fecha_naci' => $_POST["fecha_naci"], ':correo' => $_POST["correo"], ':telefono' => $_POST["telefono"], ':imagen' => $name];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			//Aqui habia un if pero lo quite :v
+			header("location:index.php?action=profesores");
+	    }	
+
+	}
+
+	#EDITAR ALUMNO
+	#------------------------------------
+
+	public function editarProfesorController(){
+
+		$sql = "SELECT * FROM profesores WHERE id = :id";
+		$execute = [':id' => $_GET["id"]];
+
+		$respuesta = Datos::selectUno($sql, $execute);
+
+		return $respuesta;
+
+	}
+
+	#ACTUALIZAR ALUMNO
+	#------------------------------------
+	public function actualizarProfesorController(){
+
+		if(isset($_POST["actualizar"])){
+
+			$name = $_FILES['file']['name'];
+	        $target_dir = "upload/";
+	        $target_file = $target_dir . basename($_FILES["file"]["name"]);
+
+	        // Select file type
+	        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+
+	        // Valid file extensions
+	        $extensions_arr = array("jpg","jpeg","png","gif");
+
+	        // Check extension
+	        if( in_array($imageFileType,$extensions_arr) ){
+	            
+	            // Convert to base64 
+	            $image_base64 = base64_encode(file_get_contents($_FILES['file']['tmp_name']) );
+	            $image = 'data:image/'.$imageFileType.';base64,'.$image_base64;
+	            
+	            // Upload file
+	            move_uploaded_file($_FILES['file']['tmp_name'],'upload/'.$name);
+
+	        }
+
+	        //SQL para el insert
+			$sql = "UPDATE profesores SET nombre = :nombre, fecha_naci = :fecha_naci, correo = :correo, telefono = :telefono, imagen = :imagen WHERE id = :id";
+
+			$execute = [':nombre' => $_POST["nombre"], ':fecha_naci' => $_POST["fecha_naci"], ':correo' => $_POST["correo"], ':telefono' => $_POST["telefono"], ':imagen' => $name, ':id' => $id];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			if($respuesta == "success"){
+
+				header("location:index.php?action=profesores");
+
+			}
+
+			else{
+
+				echo "error";
+
+			}
+
+		}
+	
+	}
+
+	#BORRAR ALUMNO
+	#------------------------------------
+	public function borrarProfesorController(){
+		if(isset($_GET["id"])){
+
+			$sql = "DELETE FROM profesores WHERE id = :id";
+			$execute = [':id' => $_GET["id"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			if($respuesta == "success"){
+				header("location:index.php?action=profesores");
+			}
+		}
+	}
+
+	#CARGAR LOS NOMBRES DE PROFESOR
+	#------------------------------------
+
+	public function nombreProfesorController(){
+
+		$sql = "SELECT id, nombre FROM profesores";
+
+		$respuesta = Datos::selectAll($sql);
+
+		foreach($respuesta as $row => $valor){
+			echo'<option value='.$valor["id"].'>'.$valor["nombre"].'</option>';
+		}
+
+	}
+
+	#CARGAR LOS NOMBRES DE ALUMNO
+	#------------------------------------
+
+	public function nombreAlumnoController(){
+
+		$sql = "SELECT matricula, nombre FROM alumnos";
+
+		$respuesta = Datos::selectAll($sql);
+
+		foreach($respuesta as $row => $valor){
+			echo'<option value='.$valor["matricula"].'>'.$valor["nombre"].'</option>';
+		}
+
+	}
+
+	#CARGAR LOS NOMBRES MATERIA
+	#------------------------------------
+
+	public function nombreMateriasController(){
+
+		$sql = "SELECT id, nombre FROM materias";
+
+		$respuesta = Datos::selectAll($sql);
+
+		foreach($respuesta as $row => $valor){
+			echo'<option value='.$valor["id"].'>'.$valor["nombre"].'</option>';
+		}
+
+	}
+
+
+	#VISTA DE PROFESORES
+	#------------------------------------
+
+	public function vistaMateriasController(){
+
+		$sql = "SELECT m.id as id, m.nombre as nombre, p.nombre as nombre_profe FROM materias m JOIN profesores p WHERE m.id_profe = p.id ";
+
+		$respuesta = Datos::selectAll($sql);
+
+		#El constructor foreach proporciona un modo sencillo de iterar sobre arrays. foreach funciona sólo sobre arrays y objetos, y emitirá un error al intentar usarlo con una variable de un tipo diferente de datos o una variable no inicializada.
+
+		foreach($respuesta as $row => $materia){
+		echo'<tr>
+				<td>'.$materia["id"].'</td>
+				<td>'.$materia["nombre"].'</td>
+				<td>'.$materia["nombre_profe"].'</td>
+				<td><a href="index.php?action=editar_materia&id='.$materia["id"].'"><button>Editar</button></a></td>
+				<td><a onclick="return confirmation()" href="index.php?action=borrar_materia&id='.$materia["id"].'"><button>Borrar</button></a></td>
+			</tr>';
+
+		}
+
+	}
+
+	#VISTA DE Alumnos de una Materia
+	#------------------------------------
+
+	public function vistaAlumnoMateriaController(){
+
+		if (isset($_POST["buscar"])) {
+			$sql = "SELECT a.matricula as matricula, a.nombre as nombre FROM alumnos a JOIN alumno_materia s WHERE a.matricula = s.id_alumno AND s.id_materia = ".$_POST["id"];
+
+			$respuesta = Datos::selectAll($sql);
+
+			#El constructor foreach proporciona un modo sencillo de iterar sobre arrays. foreach funciona sólo sobre arrays y objetos, y emitirá un error al intentar usarlo con una variable de un tipo diferente de datos o una variable no inicializada.
+
+			$total = 0;
+
+			foreach($respuesta as $row => $alumno){
+				echo'<tr>
+						<td>'.$alumno["matricula"].'</td>
+						<td>'.$alumno["nombre"].'</td>
+					</tr>';
+			}
+		}
+
+	}
+
+	#AGREGAR UN NUEVO ALUMNO
+	#------------------------------------
+	public function agregarMateriaController(){
+
+		if(isset($_POST["agregar"])){
+
+
+	        //SQL para el insert
+			$sql = "INSERT INTO materias (id, nombre, id_profe) VALUES (:id,:nombre,:id_profe)";
+
+			$execute = [':id' => $_POST["id"], ':nombre' => $_POST["nombre"], ':id_profe' => $_POST["id_profe"] ];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			foreach($_POST["matricula_alumno"] as $matricula){
+				$sql = "INSERT INTO alumno_materia (id_materia, id_alumno) VALUES (:id_materia, :id_alumno)";
+				$execute = [':id_materia' => $_POST["id"], ':id_alumno' => $matricula ];
+
+				//Llamamos al modelo
+				$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			}
+
+			//Aqui habia un if pero lo quite :v
+			header("location:index.php?action=grupos");
+	    }	
+
+	}
+
+	#EDITAR ALUMNO
+	#------------------------------------
+
+	public function editarMateriaController(){
+
+		$sql = "SELECT * FROM materias WHERE id = :id";
+		$execute = [':id' => $_GET["id"]];
+
+		$respuesta = Datos::selectUno($sql, $execute);
+
+		return $respuesta;
+
+	}
+
+	#ACTUALIZAR ALUMNO
+	#------------------------------------
+	public function actualizarMateriaController(){
+
+		if(isset($_POST["actualizar"])){
+
+			$sql = "DELETE FROM alumno_materia WHERE id_materia = :id";
+
+			$execute = [':id' => $_POST["id"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			$sql = "DELETE FROM materias WHERE id = :id";
+
+			$execute = [':id' => $_POST["id"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+	        //SQL para el insert
+			$sql = "INSERT INTO materias (id, nombre, id_profe) VALUES (:id,:nombre,:id_profe)";
+
+			$execute = [':id' => $_POST["id"], ':nombre' => $_POST["nombre"], ':id_profe' => $_POST["id_profe"] ];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			foreach($_POST["matricula_alumno"] as $matricula){
+				$sql = "INSERT INTO alumno_materia (id_materia, id_alumno) VALUES (:id_materia, :id_alumno)";
+				$execute = [':id_materia' => $_POST["id"], ':id_alumno' => $matricula ];
+
+				//Llamamos al modelo
+				$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			}
+
+			//Aqui habia un if pero lo quite :v
+			header("location:index.php?action=materias");
+
+		}
+	
+	}
+
+	#BORRAR ALUMNO
+	#------------------------------------
+	public function borrarMateriaController(){
+		if(isset($_GET["id"])){
+
+			$sql = "DELETE FROM materias WHERE id = :id";
+			$execute = [':id' => $_GET["id"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			if($respuesta == "success"){
+				header("location:index.php?action=materias");
+			}
+		}
+	}
+
+
+	//----
+
+	#CARGAR LOS NOMBRES DE ALUMNO
+	#------------------------------------
+
+	public function idGrupoController(){
+
+		$sql = "SELECT id FROM grupos";
+
+		$respuesta = Datos::selectAll($sql);
+
+		foreach($respuesta as $row => $valor){
+			echo'<option value='.$valor["id"].'>'.$valor["id"].'</option>';
+		}
+
+	}
+
+
+	#VISTA DE PROFESORES
+	#------------------------------------
+
+	public function vistaGruposController(){
+
+		$sql = "SELECT id FROM grupos";
+
+		$respuesta = Datos::selectAll($sql);
+
+		#El constructor foreach proporciona un modo sencillo de iterar sobre arrays. foreach funciona sólo sobre arrays y objetos, y emitirá un error al intentar usarlo con una variable de un tipo diferente de datos o una variable no inicializada.
+
+		foreach($respuesta as $row => $grupo){
+		echo'<tr>
+				<td>'.$grupo["id"].'</td>
+				<td><a href="index.php?action=editar_grupo&id='.$grupo["id"].'"><button>Editar</button></a></td>
+				<td><a onclick="return confirmation()" href="index.php?action=borrar_grupo&id='.$grupo["id"].'"><button>Borrar</button></a></td>
+			</tr>';
+
+		}
+
+	}
+
+	#VISTA DE Alumnos de una Materia
+	#------------------------------------
+
+	public function vistaMateriaGrupoController(){
+
+		if (isset($_POST["buscar"])) {
+			$sql = "SELECT m.id as id_materia, m.nombre as nombre FROM materias m JOIN grupo_materia g WHERE m.id = g.id_materia AND g.id_grupo = ".$_POST["id"];
+
+			$respuesta = Datos::selectAll($sql);
+
+			#El constructor foreach proporciona un modo sencillo de iterar sobre arrays. foreach funciona sólo sobre arrays y objetos, y emitirá un error al intentar usarlo con una variable de un tipo diferente de datos o una variable no inicializada.
+
+			$total = 0;
+
+			foreach($respuesta as $row => $materia){
+				echo'<tr>
+						<td>'.$materia["id_materia"].'</td>
+						<td>'.$materia["nombre"].'</td>
+					</tr>';
+			}
+		}
+
+	}
+
+	#AGREGAR UN NUEVO ALUMNO
+	#------------------------------------
+	public function agregarGrupoController(){
+
+		if(isset($_POST["agregar"])){
+
+
+	        //SQL para el insert
+			$sql = "INSERT INTO grupos (id) VALUES (:id)";
+
+			$execute = [':id' => $_POST["id"]];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			foreach($_POST["id_materia"] as $id){
+				$sql = "INSERT INTO grupo_materia (id_grupo, id_materia) VALUES (:id_grupo, :id_materia)";
+				$execute = [':id_grupo' => $_POST["id"], ':id_materia' => $id ];
+
+				//Llamamos al modelo
+				$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			}
+
+			//Aqui habia un if pero lo quite :v
+			header("location:index.php?action=materias");
+	    }	
+
+	}
+
+	#EDITAR ALUMNO
+	#------------------------------------
+
+	public function editarGrupoController(){
+
+		$sql = "SELECT * FROM grupos WHERE id = :id";
+		$execute = [':id' => $_GET["id"]];
+
+		$respuesta = Datos::selectUno($sql, $execute);
+
+		return $respuesta;
+
+	}
+
+	#ACTUALIZAR ALUMNO
+	#------------------------------------
+	public function actualizarGrupoController(){
+
+		if(isset($_POST["actualizar"])){
+
+			$sql = "DELETE FROM alumno_materia WHERE id_materia = :id";
+
+			$execute = [':id' => $_POST["id"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			$sql = "DELETE FROM materias WHERE id = :id";
+
+			$execute = [':id' => $_POST["id"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+	        //SQL para el insert
+			$sql = "INSERT INTO materias (id, nombre, id_profe) VALUES (:id,:nombre,:id_profe)";
+
+			$execute = [':id' => $_POST["id"], ':nombre' => $_POST["nombre"], ':id_profe' => $_POST["id_profe"] ];
+
+			//Llamamos al modelo
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			foreach($_POST["matricula_alumno"] as $matricula){
+				$sql = "INSERT INTO alumno_materia (id_materia, id_alumno) VALUES (:id_materia, :id_alumno)";
+				$execute = [':id_materia' => $_POST["id"], ':id_alumno' => $matricula ];
+
+				//Llamamos al modelo
+				$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			}
+
+			//Aqui habia un if pero lo quite :v
+			header("location:index.php?action=materias");
+
+		}
+	
+	}
+
+	#BORRAR ALUMNO
+	#------------------------------------
+	public function borrarGrupoController(){
+		if(isset($_GET["id"])){
+
+			$sql = "DELETE FROM materias WHERE id = :id";
+			$execute = [':id' => $_GET["id"]];
+
+			$respuesta = Datos::insert_update_delete($sql, $execute);
+
+			if($respuesta == "success"){
+				header("location:index.php?action=materias");
+			}
+		}
+	}
+
+
 }
 
 ?>

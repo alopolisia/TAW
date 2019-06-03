@@ -15,16 +15,16 @@ if(!$_SESSION["validar"]){
 		<div class="row small-spacing">
 			<div class="col-xs-12">
 				<div class="box-content">
-					<h4 class="box-title">Alumnos</h4>
+					<h4 class="box-title">Profesores</h4>
 					<div class="pull-right">
-						<a href="index.php?action=agregar_alumno" class="btn btn-primary btn-rounded btn-bordered waves-effect waves-light">Agregar Alumno</a>
+						<a href="index.php?action=agregar_profesor" class="btn btn-primary btn-rounded btn-bordered waves-effect waves-light">Agregar Profesor</a>
 					</div>
 
 					<!-- /.dropdown js__dropdown -->
 					<table id="example" class="table table-striped table-bordered display" style="width:100%">
 						<thead>
 							<tr>
-								<th>Matrícula</th>
+								<th>Id</th>
 								<th>Nombre</th>
 								<th>Fecha de Nacimiento</th>
 								<th>Correo</th>
@@ -36,7 +36,7 @@ if(!$_SESSION["validar"]){
 						</thead>
 						<tfoot>
 							<tr>
-								<th>Matrícula</th>
+								<th>Id</th>
 								<th>Nombre</th>
 								<th>Fecha de Nacimiento</th>
 								<th>Correo</th>
@@ -50,7 +50,7 @@ if(!$_SESSION["validar"]){
 							<?php
 
 							$vistaUsuario = new MvcController();
-							$vistaUsuario -> vistaAlumnosController();
+							$vistaUsuario -> vistaProfesoresController();
 
 							?>
 						</tbody>

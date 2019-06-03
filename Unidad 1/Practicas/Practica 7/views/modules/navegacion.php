@@ -51,15 +51,19 @@
 				<div class="container">			
 					<ul class="menu">
 							<li class="current">
-								<a href="index.php?action=habitaciones"><i class="ico fa fa-bed"></i><span>Habitaciones</span></a>
+								<a href="index.php?action=alumnos"><i class="ico fa fa-bed"></i><span>Alumnos</span></a>
 							</li>
 							
 							<li class="has-sub">
-								<a href="index.php?action=clientes"><i class="ico fa fa-user"></i><span>Clientes</span></a>
+								<a href="index.php?action=profesores"><i class="ico fa fa-user"></i><span>Profesores</span></a>
 							</li>
 
 							<li class="has-sub">
-								<a href="index.php?action=ganancia"><i class="ico fa fa-bar-chart"></i><span>Ganancia</span></a>
+								<a href="index.php?action=materias"><i class="ico fa fa-bar-chart"></i><span>Materias</span></a>
+							</li>
+
+							<li class="has-sub">
+								<a href="index.php?action=grupos"><i class="ico fa fa-bar-chart"></i><span>Grupos</span></a>
 							</li>
 
 							<li class="has-sub">

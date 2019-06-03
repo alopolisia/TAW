@@ -5,18 +5,6 @@
 	<title>Template</title>
 
 	<link rel="stylesheet" href="assets/styles/style.min.css">
-
-	<!-- Waves Effect -->
-	<link rel="stylesheet" href="assets/plugin/waves/waves.min.css">
-
-	<!-- Main Styles -->
-	<link rel="stylesheet" href="assets/styles/style-horizontal.min.css">
-
-	<!-- mCustomScrollbar -->
-	<link rel="stylesheet" href="assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css">
-
-	<!-- Sweet Alert -->
-	<link rel="stylesheet" href="assets/plugin/sweet-alert/sweetalert.css">
 	
 	<!-- Percent Circle -->
 	<link rel="stylesheet" href="assets/plugin/percircle/css/percircle.css">
@@ -30,6 +18,27 @@
 
 	<!-- Dropify -->
 	<link rel="stylesheet" href="assets/plugin/dropify/css/dropify.min.css">
+
+	<!-- Main Styles -->
+	<link rel="stylesheet" href="assets/styles/style-horizontal.min.css">
+
+	<!-- mCustomScrollbar -->
+	<link rel="stylesheet" href="assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css">
+
+	<!-- Waves Effect -->
+	<link rel="stylesheet" href="assets/plugin/waves/waves.min.css">
+
+	<!-- Sweet Alert -->
+	<link rel="stylesheet" href="assets/plugin/sweet-alert/sweetalert.css">
+	
+	<!-- FlexDatalist -->
+	<link rel="stylesheet" href="assets/plugin/flexdatalist/jquery.flexdatalist.min.css">
+
+	<!-- Popover -->
+	<link rel="stylesheet" href="assets/plugin/popover/jquery.popSelect.min.css">
+
+	<!-- Select2 -->
+	<link rel="stylesheet" href="assets/plugin/select2/css/select2.min.css">
 
 	<!-- Timepicker -->
 	<link rel="stylesheet" href="assets/plugin/timepicker/bootstrap-timepicker.min.css">
@@ -45,6 +54,9 @@
 
 	<!-- DateRangepicker -->
 	<link rel="stylesheet" href="assets/plugin/daterangepicker/daterangepicker.css">
+
+	<!-- Color Picker -->
+	<link rel="stylesheet" href="assets/color-switcher/color-switcher.min.css">
 
 </head>
 
@@ -90,6 +102,21 @@
 	<script src="assets/plugin/dropify/js/dropify.min.js"></script>
 	<script src="assets/scripts/fileUpload.demo.min.js"></script>
 
+	<!-- Flex Datalist -->
+	<script src="assets/plugin/flexdatalist/jquery.flexdatalist.min.js"></script>
+
+	<!-- Popover -->
+	<script src="assets/plugin/popover/jquery.popSelect.min.js"></script>
+
+	<!-- Select2 -->
+	<script src="assets/plugin/select2/js/select2.min.js"></script>
+
+	<!-- Multi Select -->
+	<script src="assets/plugin/multiselect/multiselect.min.js"></script>
+
+	<!-- Touch Spin -->
+	<script src="assets/plugin/touchspin/jquery.bootstrap-touchspin.min.js"></script>
+
 	<!-- Timepicker -->
 	<script src="assets/plugin/timepicker/bootstrap-timepicker.min.js"></script>
 
@@ -114,6 +141,8 @@
 	<script src="assets/scripts/main.min.js"></script>
 	<script src="assets/scripts/horizontal-menu.min.js"></script>
 	<script src="assets/color-switcher/color-switcher.min.js"></script>
+
+	
 	
 </body>
 
